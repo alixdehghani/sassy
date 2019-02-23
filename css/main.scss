@@ -1,0 +1,135 @@
+// define a  map variable 
+$colors: (
+    primary: fade-out(blue,0.1),
+    accent: #FFF6BB,
+    primary-light: fade-out(blue, 0.4),
+    primary-dark: fade-in(blue,0.4)
+);
+
+$paddong: 15px;
+$border: 15px;
+$desktop: 840px;
+// define a function to return color 
+@function color($color-name){
+    @return map-get($colors, $color-name);
+}
+
+@mixin desktop {
+    @media (min-width: #{$desktop}) {
+        @content;
+    }
+}
+body, html {
+    height: 100%;
+}
+body {
+    margin: 0;
+    // id selector in sass
+    #bg {
+        // https://www.bennettfeely.com/clippy/
+        clip-path: polygon(50% 0%, 100% 0, 100% 84%, 52% 100%, 0 100%, 0 0);
+        width: 100%;
+        height: 100%;
+            // (Refactored)map-get is a function that  get the value of map varible
+            // (Refactored)background-color: map-get($colors, primary );
+        // use function
+        background-color: color(primary);
+        position: absolute;
+        z-index: -1;
+        @include desktop(){
+            clip-path: polygon(0 0, 76% 0, 60% 100%, 0% 100%);
+        }
+    }
+    header a {
+        color: #FFF;
+        text-decoration: none;
+        display: block;
+        padding: $paddong;
+        text-transform: uppercase;
+    }
+    main {
+        @include desktop(){
+            display: grid;
+            grid-template-columns: 50% auto;
+            grid-template-areas: "primary card";
+        }
+        section#card {
+            @include desktop(){
+                grid-area: card;
+                height: fit-content;
+                align-self: center;
+                margin: 1em;
+            }
+            background: #FFF;
+            padding: $paddong + 5;
+            margin: 1em auto;
+            border-radius: $border;
+            box-shadow: 0 10px 30px black;
+            width: 80%;
+            ul {
+                list-style-type: none;
+                padding: 0;
+                margin: 0;
+                li {
+                    margin-bottom: 10px;
+                    span {
+                        position: absolute;
+                        width: 30px;
+                        height: 30px;
+                        background-color: color(primary-light);
+                        border-radius: 50%;
+                        margin-right: 10px;
+                    }
+                    strong {
+                        display: inline-block;
+                        margin-left: max(40px);
+                        margin-top: 10px;
+                    }
+                }
+            }
+        }
+
+        section#ptimary {
+            @include desktop(){
+                grid-area: primary;
+                text-align: left;
+                align-self: center;
+                margin: 4em 0 0 4em;
+            }
+            color: #FFF;
+            padding: $paddong;
+            text-align: center;
+            h1 {
+                @include desktop(){
+                    width: 30%;
+                    font-size: 3em;
+                    line-height: 0.9em;
+                }
+                font-size: 2.5em;
+                margin-top: 10px;
+                text-transform: uppercase;
+            }
+
+            p {
+                font-size: 1.5em;
+            }
+
+            a {
+                color: color(primary-dark);
+                border-radius: $border;
+                text-decoration: none;
+                text-transform: uppercase;
+                font-weight: bold;
+                background-color: color(accent);
+                display: block;
+                text-align: center;
+                margin: 30px auto 0 auto;
+                padding: $paddong;
+                @include desktop(){
+                     display: inline-block;
+                     padding: $paddong $paddong * 4;
+                }
+            }
+        }
+    }
+}
